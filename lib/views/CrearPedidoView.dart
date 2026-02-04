@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../views/SeleccionarProductosView.dart';
 import '../viewmodels/CrearPedidoViewModel.dart';
 
+/// Vista para crear un nuevo pedido.
 class CrearPedidoView extends StatefulWidget {
   const CrearPedidoView({super.key});
 
@@ -10,22 +11,29 @@ class CrearPedidoView extends StatefulWidget {
 }
 
 class _CrearPedidoViewState extends State<CrearPedidoView> {
+  // Utiliza un ViewModel para gestionar los datos del pedido.
   final vm = CrearPedidoViewModel();
 
+  /// Construye la interfaz de usuario para crear un nuevo pedido.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Crear pedido")),
       body: Column(
         children: [
+          /// Permite al usuario ingresar el nombre de la mesa.
           TextField(
             decoration: InputDecoration(labelText: "Mesa/Nombre: "),
-            onChanged: vm
-                .setNombreMesa, 
+
+            /// Actualiza el nombre de la mesa en el ViewModel cuando cambia el texto.
+            onChanged: vm.setNombreMesa,
           ),
 
           SizedBox(height: 20),
+
+          // BOTON PARA AÑADIR PRODUCTOS
           ElevatedButton(
+            // Al presionarlo, navega a la vista SeleccionarProductosView y espera los productos seleccionados como resultado.
             onPressed: () async {
               final seleccionados = await Navigator.push(
                 context,
@@ -33,7 +41,7 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
               );
 
               if (!mounted) return;
-
+              // Si se reciben productos seleccionados, los actualiza en el ViewModel.
               if (seleccionados != null) {
                 setState(() => vm.setProductos(seleccionados));
               }
@@ -44,12 +52,18 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
           SizedBox(height: 20),
 
           // RESUMEN PROVISIONAL
+          /// Muestra el número de productos seleccionados y el total provisional del pedido.
           Text("Productos: ${vm.productosSeleccionados.length}"),
           Text("Total: ${vm.totalProvisional}€"),
 
+
           ElevatedButton(
             onPressed: () {
-            Navigator.pushNamed(context, "/resumen", arguments: vm.pedidoFinal);
+              Navigator.pushNamed(
+                context,
+                "/resumen",
+                arguments: vm.pedidoFinal,
+              );
             },
             child: Text("Ver resumen"),
           ),
@@ -60,7 +74,7 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context); 
+                  Navigator.pop(context);
                 },
                 child: Text("Cancelar"),
               ),

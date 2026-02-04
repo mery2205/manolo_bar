@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/pedido.dart';
 
 class ResumenFinalView extends StatelessWidget {
+  const ResumenFinalView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments;

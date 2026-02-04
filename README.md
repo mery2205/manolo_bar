@@ -1,16 +1,34 @@
-# manolo_bar
+# Nombre de la Aplicación 
+manolo_bar
 
-A new Flutter project.
+## Descripción
+Aplicación móvil para la gestión de pedidos en un bar. Permite crear pedidos asignados a mesas, seleccionar productos, calcular totales y visualizar un resumen de todos los pedidos realizados.
 
-## Getting Started
+## Tecnologías Usadas
+- **Flutter** - Framework de desarrollo multiplataforma
+- **Dart** - Lenguaje de programación
+- **Arquitectura MVVM** - Separación de responsabilidades (Model-View-ViewModel)
 
-This project is a starting point for a Flutter application.
+## Características Principales
+- Crear nuevos pedidos asignados a mesas/nombres
+- Seleccionar múltiples productos por pedido
+- Cálculo automático del total de cada pedido
+- Visualización de lista de pedidos existentes
+- Resumen detallado de cada pedido
+- Interfaz intuitiva y fácil de usar
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+
+
+
+
+
+
+
+
+
+
+

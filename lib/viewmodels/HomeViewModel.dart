@@ -1,7 +1,10 @@
 import 'package:manolo_bar/models/producto.dart';
 import '../models/pedido.dart';
 
+/// ViewModel para gestionar la lista de pedidos realizados.
 class HomeViewModel {
+
+  /// Contiene la lista de pedidos realizados.
   final List<Pedido> pedidos = [
     Pedido(
       nombreMesa: "Mesa 1",
@@ -12,6 +15,7 @@ class HomeViewModel {
     ),
   ];
 
+/// También proporciona un método para añadir un nuevo pedido a la lista.
   void anadirPedidoNuevo(Pedido pedidouNuevo) {
     pedidos.add(pedidouNuevo);
   }
