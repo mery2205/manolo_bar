@@ -56,12 +56,15 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
           Text("Productos: ${vm.productosSeleccionados.length}"),
           Text("Total: ${vm.totalProvisional}€"),
 
-
+          /// BOTON PARA VER RESUMEN
           ElevatedButton(
+            /// Al presionarlo, navega a la vista de resumen del pedido, pasando el pedido final como argumento.
             onPressed: () {
               Navigator.pushNamed(
                 context,
+                // Ruta al ResumenFinalView
                 "/resumen",
+                /// Pasa el pedido final como argumento.
                 arguments: vm.pedidoFinal,
               );
             },
@@ -69,10 +72,14 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
           ),
 
           Spacer(),
+
+          // BOTONES CANCELAR Y GUARDAR
+          /// Muestra dos botones: uno para cancelar y otro para guardar el pedido.
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
+                /// Al presionarlo, vuelve a la pantalla anterior sin guardar.
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -80,6 +87,7 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
               ),
 
               ElevatedButton(
+                /// Al presionarlo, guarda el pedido y vuelve a la pantalla anterior si el pedido es válido.
                 onPressed: vm.puedeGuardar
                     ? () => Navigator.pop(context, vm.pedidoFinal)
                     : null,
