@@ -60,17 +60,30 @@ class _SeleccionarProductosViewState extends State<SeleccionarProductosView> {
               child: ElevatedButton(
                 /// Al presionarlo, guarda los productos seleccionados y vuelve a la pantalla anterior.
                 onPressed: () {
+                  if (vm.seleccionados.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text('Selecciona al menos un producto'),
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Colors.orange,
+                      ),
+                    );
+                    return;
+                  }
 
-                    if (vm.seleccionados.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text('Selecciona al menos un producto'),
-                          duration: const Duration(seconds: 2),
-                          backgroundColor: Colors.orange,
+                  // VALIDACIÓN: máximo 10 productos
+                  if (vm.seleccionados.length < 3) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Máximo 3 productos por pedido',
                         ),
-                      );
-                      return; 
-                    }
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                    return;
+                  }
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -80,8 +93,8 @@ class _SeleccionarProductosViewState extends State<SeleccionarProductosView> {
                     ),
                   );
                   Future.delayed(const Duration(milliseconds: 300), () {
-                  Navigator.pop(context, vm.seleccionados);
-                });
+                    Navigator.pop(context, vm.seleccionados);
+                  });
                 },
 
                 child: Text("Confirmar"),
