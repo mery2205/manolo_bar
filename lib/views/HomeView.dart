@@ -54,6 +54,7 @@ class HomeViewState extends State<HomeView> {
             setState(() => vm.anadirPedidoNuevo(nuevo));
           }
         },
+        tooltip: 'Crear nuevo pedido',  // ← AÑADÍ ESTA LÍNEA
       ),
     );
   }

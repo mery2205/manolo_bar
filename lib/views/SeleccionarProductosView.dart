@@ -55,11 +55,37 @@ class _SeleccionarProductosViewState extends State<SeleccionarProductosView> {
             ),
           ),
           Expanded(
-            child: ElevatedButton(
-              /// Al presionarlo, guarda los productos seleccionados y vuelve a la pantalla anterior.
-              onPressed: () => Navigator.pop(context, vm.seleccionados),
+            child: Tooltip(
+              message: 'Guardar productos y ver resumen',
+              child: ElevatedButton(
+                /// Al presionarlo, guarda los productos seleccionados y vuelve a la pantalla anterior.
+                onPressed: () {
 
-              child: Text("Confirmar"),
+                    if (vm.seleccionados.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text('Selecciona al menos un producto'),
+                          duration: const Duration(seconds: 2),
+                          backgroundColor: Colors.orange,
+                        ),
+                      );
+                      return; 
+                    }
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Pedido guardado correctamente'),
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                  Navigator.pop(context, vm.seleccionados);
+                });
+                },
+
+                child: Text("Confirmar"),
+              ),
             ),
           ),
         ],

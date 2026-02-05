@@ -18,7 +18,17 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Crear pedido")),
+      appBar: AppBar(
+        title: Text("Crear pedido"),
+        actions: [
+          // Tooltip en botón de ayuda
+          IconButton(
+            icon: Icon(Icons.help_outline),
+            tooltip: 'Asigna un nombre a la mesa y selecciona productos',
+            onPressed: null,
+          ),
+        ],
+      ),
       body: Column(
         children: [
           /// Permite al usuario ingresar el nombre de la mesa.
@@ -32,21 +42,38 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
           SizedBox(height: 20),
 
           // BOTON PARA AÑADIR PRODUCTOS
-          ElevatedButton(
-            // Al presionarlo, navega a la vista SeleccionarProductosView y espera los productos seleccionados como resultado.
-            onPressed: () async {
-              final seleccionados = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => SeleccionarProductosView()),
-              );
+          Tooltip(
+            message: 'Elige los productos para este pedido',
+            child: ElevatedButton(
+              // Al presionarlo, navega a la vista SeleccionarProductosView y espera los productos seleccionados como resultado.
+              onPressed: () async {
+                if (vm.nombreMesa.trim().isEmpty) {
+                  // ← MUESTRA SNACKBAR SOLO SI ESTÁ VACÍO
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        '⚠️ Escribe el nombre de la mesa primero',
+                      ),
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return; // ← IMPORTANTE: detiene la ejecución aquí (no navega)
+                }
+                
+                final seleccionados = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => SeleccionarProductosView()),
+                );
 
-              if (!mounted) return;
-              // Si se reciben productos seleccionados, los actualiza en el ViewModel.
-              if (seleccionados != null) {
-                setState(() => vm.setProductos(seleccionados));
-              }
-            },
-            child: Text("Añadir productos"),
+                if (!mounted) return;
+                // Si se reciben productos seleccionados, los actualiza en el ViewModel.
+                if (seleccionados != null) {
+                  setState(() => vm.setProductos(seleccionados));
+                }
+              },
+              child: Text("Añadir productos"),
+            ),
           ),
 
           SizedBox(height: 20),
@@ -64,6 +91,7 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
                 context,
                 // Ruta al ResumenFinalView
                 "/resumen",
+
                 /// Pasa el pedido final como argumento.
                 arguments: vm.pedidoFinal,
               );
@@ -86,13 +114,17 @@ class _CrearPedidoViewState extends State<CrearPedidoView> {
                 child: Text("Cancelar"),
               ),
 
-              ElevatedButton(
-                /// Al presionarlo, guarda el pedido y vuelve a la pantalla anterior si el pedido es válido.
-                onPressed: vm.puedeGuardar
-                    ? () => Navigator.pop(context, vm.pedidoFinal)
-                    : null,
+              Tooltip(
+                message:
+                    'Escribe el nombre de la mesa y añade productos para poder guardar el pedido',
+                child: ElevatedButton(
+                  /// Al presionarlo, guarda el pedido y vuelve a la pantalla anterior si el pedido es válido.
+                  onPressed: vm.puedeGuardar
+                      ? () => Navigator.pop(context, vm.pedidoFinal)
+                      : null,
 
-                child: Text("Guardar pedido"),
+                  child: Text("Guardar pedido"),
+                ),
               ),
             ],
           ),
